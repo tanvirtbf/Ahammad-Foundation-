@@ -1,8 +1,8 @@
 import styles from './Campus.module.css'
-import gallery1 from '../../assets/gallery-1.png'
-import gallery2 from '../../assets/gallery-2.png'
-import gallery3 from '../../assets/gallery-3.png'
-import gallery4 from '../../assets/gallery-4.png'
+import gallery1 from '../../assets/program1.jpg'
+import gallery2 from '../../assets/program2.jpg'
+import gallery3 from '../../assets/program3.jpg'
+import gallery4 from '../../assets/program1.jpg'
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 

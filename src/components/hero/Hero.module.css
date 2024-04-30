@@ -42,4 +42,15 @@
     font-size: 14px;
     margin: 15px auto 30px;
   }
+  .hero{
+    width: 100%;
+    min-height: 60vh;
+    background: linear-gradient(rgba(8,0,58,0.7), rgba(8,0,58,0.7)), url('../../assets/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
