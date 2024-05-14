@@ -5,6 +5,7 @@ import Footer from "./components/footer/Footer";
 import Hero from "./components/hero/Hero";
 import Navbar from "./components/navbar/Navbar";
 import Programs from "./components/programs/Programs";
+import Slider from "./components/slider/Slider";
 import Testimonials from "./components/testimonials/Testimonials";
 import Title from "./components/title/Title";
 
@@ -13,6 +14,7 @@ function App() {
     <>
       <Navbar />
       <Hero />
+      <Slider />
       <div className="container">
         <Title subTitle='Our Program' title='What We Offer' />
         <Programs />
