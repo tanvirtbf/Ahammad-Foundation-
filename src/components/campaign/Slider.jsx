@@ -33,7 +33,7 @@ const Slider = () => {
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={30}
           slidesPerView={1.3}
-          // loop={true}
+          loop={true}
           pagination={{ clickable: true }}
           // scrollbar={{ draggable: true }}
           onSwiper={(swiper) => console.log(swiper)}
