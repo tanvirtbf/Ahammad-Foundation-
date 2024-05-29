@@ -33,7 +33,7 @@ const Contact = () => {
     <div className={styles.contact} id="contact">
       <div className={styles.contactCol}>
         <h3>
-          Send us a Message{" "}
+          আমাদের পাশে দাঁড়াতে আমাদের সাথে যোগাযোগ করুন{" "}
           <MdEmail style={{ marginLeft: "10px", fontSize: "30px" }} />
         </h3>
         <p>
