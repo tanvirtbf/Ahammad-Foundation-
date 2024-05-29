@@ -21,7 +21,7 @@ function App() {
         <About />
         <Title subTitle='Ahammad Foundation' title='Our Gallery' />
         <Campus />
-        <Title subTitle='Testimonials' title='What Student Says' />
+        <Title subTitle='Testimonials' title='মানুষ আমাদের নিয়ে যা বলে' />
         <Testimonials />
         <Title subTitle='CONTACT US' title='Get in Touch' />
         <Contact />
