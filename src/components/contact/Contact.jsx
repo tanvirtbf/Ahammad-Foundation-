@@ -74,6 +74,13 @@ const Contact = () => {
             placeholder="Enter Your Mobile Number"
             required
           />
+          <label htmlFor="">Email</label>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Enter Your Email"
+            required
+          />
           <label htmlFor="">Write Your Message Here</label>
           <textarea
             name="message"
