@@ -77,7 +77,7 @@ const Contact = () => {
           <label htmlFor="">Email</label>
           <input
             type="tel"
-            name="phone"
+            name="email"
             placeholder="Enter Your Email"
             required
           />
