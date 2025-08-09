@@ -1,501 +1,239 @@
-"use client";
-import { useState } from "react";
+import ContactForm from "../components/ContactForm";
+import Breadcrumbs from "../components/Breadcrumbs";
+
+// Contact page metadata
+export const metadata = {
+  title: "যোগাযোগ",
+  description:
+    "আহাম্মদ ফাউন্ডেশনের সাথে যোগাযোগ করুন। আমাদের ঠিকানা, ফোন নম্বর, ইমেইল এবং যোগাযোগ ফর্ম। স্বেচ্ছাসেবক, দান, অংশীদারিত্ব বা সাধারণ যোগাযোগের জন্য আমাদের সাথে যোগাযোগ করুন।",
+  keywords:
+    "আহাম্মদ ফাউন্ডেশন যোগাযোগ, ঠিকানা, ফোন নম্বর, ইমেইল, যোগাযোগ ফর্ম, স্বেচ্ছাসেবক যোগদান, দান করুন, অংশীদারিত্ব",
+  openGraph: {
+    title: "যোগাযোগ | আহাম্মদ ফাউন্ডেশন",
+    description:
+      "আহাম্মদ ফাউন্ডেশনের সাথে যোগাযোগ করুন। স্বেচ্ছাসেবক, দান, অংশীদারিত্ব বা সাধারণ যোগাযোগের জন্য।",
+    url: "https://ahammad-foundation.org/contact",
+    images: [
+      {
+        url: "/images/contact-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "আহাম্মদ ফাউন্ডেশনের সাথে যোগাযোগ",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "যোগাযোগ | আহাম্মদ ফাউন্ডেশন",
+    description:
+      "আহাম্মদ ফাউন্ডেশনের সাথে যোগাযোগ করুন। স্বেচ্ছাসেবক, দান, অংশীদারিত্ব বা সাধারণ যোগাযোগের জন্য।",
+    images: ["/images/contact-og.jpg"],
+  },
+  alternates: {
+    canonical: "https://ahammad-foundation.org/contact",
+  },
+};
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-    type: "general",
-  });
-
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const contactTypes = [
-    { id: "general", label: "সাধারণ যোগাযোগ", icon: "💬" },
-    { id: "volunteer", label: "স্বেচ্ছাসেবক হতে চাই", icon: "🤝" },
-    { id: "donation", label: "দান করতে চাই", icon: "💝" },
-    { id: "partnership", label: "অংশীদারিত্ব", icon: "🤝" },
-    { id: "media", label: "মিডিয়া ও প্রেস", icon: "📺" },
-    { id: "complaint", label: "অভিযোগ", icon: "⚠️" },
-  ];
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
+  // Structured data for contact page
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "আহাম্মদ ফাউন্ডেশনের সাথে যোগাযোগ",
+    description: "আহাম্মদ ফাউন্ডেশনের সাথে যোগাযোগ করুন",
+    url: "https://ahammad-foundation.org/contact",
+    mainEntity: {
+      "@type": "Organization",
+      name: "আহাম্মদ ফাউন্ডেশন",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "১২৩ মেইন রোড",
+        addressLocality: "ঢাকা",
+        addressRegion: "ঢাকা বিভাগ",
+        postalCode: "১০০০",
+        addressCountry: "BD",
+      },
+      telephone: "+880-XXX-XXXXXXX",
+      email: "info@ahammad-foundation.org",
+      url: "https://ahammad-foundation.org",
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+880-XXX-XXXXXXX",
+          contactType: "customer service",
+          availableLanguage: ["Bengali", "English"],
+          areaServed: "BD",
+        },
+      ],
+    },
   };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.name.trim()) newErrors.name = "নাম আবশ্যক";
-    if (!formData.email.trim()) newErrors.email = "ইমেইল আবশ্যক";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = "সঠিক ইমেইল দিন";
-    if (!formData.phone.trim()) newErrors.phone = "ফোন নম্বর আবশ্যক";
-    if (!formData.subject.trim()) newErrors.subject = "বিষয় আবশ্যক";
-    if (!formData.message.trim()) newErrors.message = "বার্তা আবশ্যক";
-    else if (formData.message.length < 10)
-      newErrors.message = "বার্তা কমপক্ষে ১০ অক্ষরের হতে হবে";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append(
-        "access_key",
-        "a197f4ce-a494-4a0e-a5c9-0b1e1e6ec823"
-      );
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("phone", formData.phone);
-      formDataToSend.append("subject", formData.subject);
-      formDataToSend.append("message", formData.message);
-      formDataToSend.append("contact_type", formData.type);
-      formDataToSend.append("form_type", "Contact Form - আহাম্মদ ফাউন্ডেশন");
-
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formDataToSend,
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setIsSubmitted(true);
-      } else {
-        console.log("Error", data);
-        alert("ফর্ম পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("ফর্ম পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-20">
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              className="w-8 h-8 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-          </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            বার্তা পাঠানো হয়েছে!
-          </h2>
-          <p className="text-gray-600 mb-6">
-            আপনার বার্তা আমরা পেয়েছি। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।
-          </p>
-          <button
-            onClick={() => {
-              setIsSubmitted(false);
-              setFormData({
-                name: "",
-                email: "",
-                phone: "",
-                subject: "",
-                message: "",
-                type: "general",
-              });
-            }}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-          >
-            নতুন বার্তা পাঠান
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(contactSchema),
+        }}
+      />
+
+      {/* Breadcrumbs */}
+      <Breadcrumbs items={[{ label: "যোগাযোগ" }]} />
+
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20">
+      <header className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6 animate-fade-in">
-            যোগাযোগ করুন
-          </h1>
+          <h1 className="text-5xl font-bold mb-6 animate-fade-in">যোগাযোগ</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90">
-            আমাদের সাথে যোগাযোগ করুন। আপনার যেকোনো প্রশ্ন, পরামর্শ বা সহায়তার
-            জন্য আমরা সর্বদা প্রস্তুত।
+            আমাদের সাথে যোগাযোগ করুন। আমরা আপনার প্রশ্ন, পরামর্শ এবং সহযোগিতার
+            জন্য সর্বদা প্রস্তুত।
           </p>
         </div>
-      </section>
+      </header>
 
       {/* Contact Information */}
-      <section className="py-20 bg-white">
+      <section
+        className="py-20 bg-white"
+        aria-labelledby="contact-info-heading"
+      >
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-gray-50 rounded-xl p-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-8">
-                আমাদের বার্তা পাঠান
-              </h2>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Contact Type */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    যোগাযোগের ধরন
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {contactTypes.map((type) => (
-                      <label
-                        key={type.id}
-                        className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all ${
-                          formData.type === type.id
-                            ? "border-green-500 bg-green-50 text-green-700"
-                            : "border-gray-300 hover:border-green-300"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="type"
-                          value={type.id}
-                          checked={formData.type === type.id}
-                          onChange={handleInputChange}
-                          className="sr-only"
-                        />
-                        <span className="text-lg mr-2">{type.icon}</span>
-                        <span className="text-sm font-medium">
-                          {type.label}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Personal Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      নাম *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
-                        errors.name ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="আপনার নাম"
-                    />
-                    {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      ইমেইল *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
-                        errors.email ? "border-red-500" : "border-gray-300"
-                      }`}
-                      placeholder="example@email.com"
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    ফোন নম্বর *
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
-                      errors.phone ? "border-red-500" : "border-gray-300"
-                    }`}
-                    placeholder="+৮৮০ ১৭xxxxxxxx"
-                  />
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    বিষয় *
-                  </label>
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
-                      errors.subject ? "border-red-500" : "border-gray-300"
-                    }`}
-                    placeholder="আপনার বার্তার বিষয়"
-                  />
-                  {errors.subject && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.subject}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    বার্তা *
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows="6"
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
-                      errors.message ? "border-red-500" : "border-gray-300"
-                    }`}
-                    placeholder="আপনার বার্তা বিস্তারিত লিখুন..."
-                  />
-                  {errors.message && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full py-4 rounded-lg font-semibold text-lg transition-all duration-300 ${
-                    isSubmitting
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-green-600 hover:bg-green-700 transform hover:scale-105"
-                  } text-white`}
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center justify-center">
-                      <svg
-                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                      পাঠানো হচ্ছে...
-                    </span>
-                  ) : (
-                    "বার্তা পাঠান"
-                  )}
-                </button>
-              </form>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-8">
-                  যোগাযোগের তথ্য
-                </h2>
-
-                <div className="space-y-6">
-                  {[
-                    {
-                      icon: "📍",
-                      title: "ঠিকানা",
-                      details: [
-                        "আহাম্মদ ফাউন্ডেশন",
-                        "Sonir Akhra, Zia-sharani road",
-                        "Dhaka 1236, Bangladesh",
-                      ],
-                    },
-                    {
-                      icon: "📞",
-                      title: "ফোন",
-                      details: ["01317277858"],
-                    },
-                    {
-                      icon: "✉️",
-                      title: "ইমেইল",
-                      details: ["Contact@ahammad2022foundation@gmail.com"],
-                    },
-                    {
-                      icon: "🕒",
-                      title: "কার্যসময়",
-                      details: [
-                        "রবিবার - বৃহস্পতিবার: ৯:০০ - ১৭:০০",
-                        "শুক্রবার: ৯:০০ - ১২:০০",
-                        "শনিবার: বন্ধ",
-                      ],
-                    },
-                  ].map((contact, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start space-x-4 p-6 bg-gray-50 rounded-lg"
-                    >
-                      <div className="text-3xl">{contact.icon}</div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                          {contact.title}
-                        </h3>
-                        {contact.details.map((detail, idx) => (
-                          <p key={idx} className="text-gray-600">
-                            {detail}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Social Media */}
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  সামাজিক মাধ্যম
-                </h3>
-                <div className="flex space-x-4">
-                  {[
-                    { name: "Facebook", icon: "📘", color: "bg-blue-600" },
-                    { name: "Twitter", icon: "🐦", color: "bg-blue-400" },
-                    { name: "Instagram", icon: "📷", color: "bg-pink-600" },
-                    { name: "YouTube", icon: "📺", color: "bg-red-600" },
-                  ].map((social, index) => (
-                    <a
-                      key={index}
-                      href="#"
-                      className={`w-12 h-12 ${social.color} rounded-full flex items-center justify-center text-white hover:opacity-80 transition-opacity`}
-                    >
-                      <span className="text-xl">{social.icon}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-20 bg-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              আমাদের অবস্থান
+          <header className="text-center mb-16">
+            <h2
+              id="contact-info-heading"
+              className="text-4xl font-bold text-gray-800 mb-4"
+            >
+              যোগাযোগের তথ্য
             </h2>
             <p className="text-xl text-gray-600">
-              আমাদের অফিসে সরাসরি আসতে চাইলে এই ঠিকানায় আসুন
+              আমাদের সাথে যোগাযোগের বিভিন্ন মাধ্যম
             </p>
-          </div>
+          </header>
 
-          {/* Map Placeholder */}
-          <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-xl h-96 flex items-center justify-center">
-            <div className="text-center text-white">
-              <div className="text-6xl mb-4">🗺️</div>
-              <h3 className="text-2xl font-bold mb-2">ইন্টারঅ্যাক্টিভ ম্যাপ</h3>
-              <p className="text-lg opacity-90">
-                আহাম্মদ ফাউন্ডেশন, Sonir Akhra, Zia-sharani road, Dhaka 1236
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Address */}
+            <article
+              className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow duration-300"
+              itemScope
+              itemType="https://schema.org/PostalAddress"
+            >
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl" aria-hidden="true">
+                  📍
+                </span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                ঠিকানা
+              </h3>
+              <address className="text-gray-600 not-italic">
+                <span itemProp="streetAddress">১২ৃ মেইন রোড</span>
+                <br />
+                <span itemProp="addressLocality">ঢাকা</span>,{" "}
+                <span itemProp="addressRegion">ঢাকা বিভাগ</span>
+                <br />
+                <span itemProp="postalCode">১০০০</span>
+                <br />
+                <span itemProp="addressCountry">বাংলাদেশ</span>
+              </address>
+            </article>
+
+            {/* Phone */}
+            <article className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl" aria-hidden="true">
+                  📞
+                </span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">ফোন</h3>
+              <div className="text-gray-600">
+                <a
+                  href="tel:+880XXXXXXXXX"
+                  className="hover:text-green-600 transition-colors"
+                >
+                  +৮৮০ XXX-XXXXXXX
+                </a>
+                <br />
+                <a
+                  href="tel:+880XXXXXXXXX"
+                  className="hover:text-green-600 transition-colors"
+                >
+                  +৮৮০ XXX-XXXXXXX
+                </a>
+              </div>
+            </article>
+
+            {/* Email */}
+            <article className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl" aria-hidden="true">
+                  ✉️
+                </span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                ইমেইল
+              </h3>
+              <div className="text-gray-600">
+                <a
+                  href="mailto:info@ahammad-foundation.org"
+                  className="hover:text-green-600 transition-colors"
+                >
+                  info@ahammad-foundation.org
+                </a>
+                <br />
+                <a
+                  href="mailto:contact@ahammad-foundation.org"
+                  className="hover:text-green-600 transition-colors"
+                >
+                  contact@ahammad-foundation.org
+                </a>
+              </div>
+            </article>
+
+            {/* Office Hours */}
+            <article className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl" aria-hidden="true">
+                  🕒
+                </span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                অফিস সময়
+              </h3>
+              <div className="text-gray-600">
+                <time>রবিবার - বৃহস্পতিবার</time>
+                <br />
+                <time>সকাল ৯:০০ - বিকাল ৫:০০</time>
+                <br />
+                <span className="text-sm text-gray-500">শুক্রবার বন্ধ</span>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 bg-white">
+      {/* Contact Form */}
+      <section
+        className="py-20 bg-gray-50"
+        aria-labelledby="contact-form-heading"
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              প্রায়শই জিজ্ঞাসিত প্রশ্ন
-            </h2>
-          </div>
+          <div className="max-w-4xl mx-auto">
+            <header className="text-center mb-12">
+              <h2
+                id="contact-form-heading"
+                className="text-4xl font-bold text-gray-800 mb-4"
+              >
+                আমাদের সাথে যোগাযোগ করুন
+              </h2>
+              <p className="text-xl text-gray-600">
+                নিচের ফর্মটি পূরণ করে আমাদের কাছে আপনার বার্তা পাঠান
+              </p>
+            </header>
 
-          <div className="max-w-3xl mx-auto space-y-6">
-            {[
-              {
-                question: "কীভাবে স্বেচ্ছাসেবক হতে পারি?",
-                answer:
-                  "আমাদের স্বেচ্ছাসেবক নিবন্ধন পেজে গিয়ে ফর্ম পূরণ করুন। আমরা আপনার সাথে যোগাযোগ করব।",
-              },
-              {
-                question: "দান করার উপায় কী?",
-                answer:
-                  "আপনি আমাদের অফিসে সরাসরি দান করতে পারেন অথবা ব্যাংক ট্রান্সফারের মাধ্যমে দান করতে পারেন।",
-              },
-              {
-                question: "আপনাদের কার্যক্রমে কীভাবে অংশগ্রহণ করব?",
-                answer:
-                  "আমাদের সাথে যোগাযোগ করুন অথবা আমাদের সামাজিক মাধ্যম ফলো করে আপডেট পান।",
-              },
-              {
-                question: "সাহায্যের জন্য কীভাবে আবেদন করব?",
-                answer:
-                  "আমাদের অফিসে এসে আবেদন করতে পারেন অথবা ফোনে যোগাযোগ করতে পারেন।",
-              },
-            ].map((faq, index) => (
-              <div key={index} className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-600">{faq.answer}</p>
-              </div>
-            ))}
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>

@@ -1,146 +1,180 @@
-"use client";
-import { useState, useEffect } from "react";
 import Link from "next/link";
+import HeroSlider from "./components/HeroSlider";
+
+// Homepage metadata
+export const metadata = {
+  title: "আহাম্মদ ফাউন্ডেশন - অসহায়দের সাহায্যে এগিয়ে",
+  description:
+    "আহাম্মদ ফাউন্ডেশন একটি অলাভজনক সংস্থা যা ২০১৫ সাল থেকে অসহায় মানুষদের সাহায্য করে। শিক্ষা, স্বাস্থ্যসেবা, দক্ষতা উন্নয়ন এবং দুর্যোগ ত্রাণের মাধ্যমে আমরা সমাজের কল্যাণে নিবেদিত।",
+  keywords:
+    "আহাম্মদ ফাউন্ডেশন, অলাভজনক সংস্থা, দাতব্য প্রতিষ্ঠান, সামাজিক সেবা, শিক্ষা সহায়তা, স্বাস্থ্যসেবা, দক্ষতা উন্নয়ন, দুর্যোগ ত্রাণ, স্বেচ্ছাসেবক, সমাজ উন্নয়ন, বাংলাদেশ",
+  openGraph: {
+    title: "আহাম্মদ ফাউন্ডেশন - অসহায়দের সাহায্যে এগিয়ে",
+    description:
+      "আহাম্মদ ফাউন্ডেশন একটি অলাভজনক সংস্থা যা ২০১৫ সাল থেকে অসহায় মানুষদের সাহায্য করে।",
+    url: "https://ahammad-foundation.org",
+    images: [
+      {
+        url: "/images/hero-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "আহাম্মদ ফাউন্ডেশন - অসহায়দের সাহায্যে এগিয়ে",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "আহাম্মদ ফাউন্ডেশন - অসহায়দের সাহায্যে এগিয়ে",
+    description:
+      "আহাম্মদ ফাউন্ডেশন একটি অলাভজনক সংস্থা যা ২০১৫ সাল থেকে অসহায় মানুষদের সাহায্য করে।",
+    images: ["/images/hero-og.jpg"],
+  },
+  alternates: {
+    canonical: "https://ahammad-foundation.org",
+  },
+};
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // Structured data for homepage
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "আহাম্মদ ফাউন্ডেশন",
+    alternateName: "Ahammad Foundation",
+    url: "https://ahammad-foundation.org",
+    description:
+      "আহাম্মদ ফাউন্ডেশন একটি অলাভজনক সংস্থা যা ২০১৫ সাল থেকে অসহায় মানুষদের সাহায্য করে এবং সমাজের উন্নয়নে কাজ করে।",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://ahammad-foundation.org/search?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "আহাম্মদ ফাউন্ডেশন",
+      url: "https://ahammad-foundation.org",
+    },
+  };
 
-  const heroSlides = [
-    {
-      title: "অসহায়দের পাশে দাঁড়ান",
-      subtitle: "আমরা একসাথে একটি সুন্দর ভবিষ্যৎ গড়তে পারি",
-      image: "/images/hero1.jpg",
-    },
-    {
-      title: "শিক্ষার আলো ছড়িয়ে দিন",
-      subtitle: "প্রতিটি শিশুর শিক্ষার অধিকার নিশ্চিত করুন",
-      image: "/images/hero2.jpg",
-    },
-    {
-      title: "স্বাস্থ্যসেবা সবার জন্য",
-      subtitle: "গুণগত চিকিৎসা সেবা পৌঁছে দিন প্রত্যন্ত অঞ্চলে",
-      image: "/images/hero3.jpg",
-    },
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [heroSlides.length]);
+  const nonprofitSchema = {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    name: "আহাম্মদ ফাউন্ডেশন",
+    alternateName: "Ahammad Foundation",
+    url: "https://ahammad-foundation.org",
+    logo: "https://ahammad-foundation.org/images/logo.png",
+    description:
+      "আহাম্মদ ফাউন্ডেশন একটি অলাভজনক সংস্থা যা ২০১৫ সাল থেকে অসহায় মানুষদের সাহায্য করে এবং সমাজের উন্নয়নে কাজ করে।",
+    foundingDate: "2015",
+    areaServed: "Bangladesh",
+    knowsAbout: [
+      "Education",
+      "Healthcare",
+      "Skill Development",
+      "Disaster Relief",
+      "Social Welfare",
+    ],
+    seeks: "Donations and Volunteers for social welfare activities",
+  };
 
   return (
     <div className="min-h-screen">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(nonprofitSchema),
+        }}
+      />
+
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Slider */}
-        <div className="absolute inset-0">
-          {heroSlides.map((slide, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-green-900/80 to-blue-900/80"></div>
-              <div
-                className="w-full h-full bg-cover bg-center"
-                style={{
-                  backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23059669" width="1200" height="800"/><circle fill="%23047857" cx="200" cy="200" r="100"/><circle fill="%23065f46" cx="800" cy="300" r="150"/><circle fill="%23064e3b" cx="1000" cy="600" r="80"/></svg>')`,
-                }}
-              ></div>
-            </div>
-          ))}
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            {heroSlides[currentSlide].title}
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90">
-            {heroSlides[currentSlide].subtitle}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/volunteer"
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              স্বেচ্ছাসেবক হন
-            </Link>
-            <Link
-              href="/about"
-              className="border-2 border-white text-white hover:bg-white hover:text-green-600 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105"
-            >
-              আমাদের সম্পর্কে জানুন
-            </Link>
-          </div>
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? "bg-white" : "bg-white/50"
-              }`}
-            />
-          ))}
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* About Preview Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" aria-labelledby="about-heading">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                আমাদের সম্পর্কে
-              </h2>
+            <article className="space-y-6">
+              <header>
+                <h2
+                  id="about-heading"
+                  className="text-4xl font-bold text-gray-800 mb-6"
+                >
+                  আমাদের সম্পর্কে
+                </h2>
+              </header>
               <p className="text-lg text-gray-600 leading-relaxed">
-                আহাম্মদ ফাউন্ডেশন একটি অলাভজনক সংস্থা যা ২০১৫ সাল থেকে অসহায়
-                মানুষদের পাশে দাঁড়িয়ে আসছে। আমাদের লক্ষ্য হলো সমাজের পিছিয়ে
-                পড়া মানুষদের জীবনযাত্রার মান উন্নয়ন করা এবং তাদের স্বাবলম্বী
-                করে তোলা।
+                <strong>আহাম্মদ ফাউন্ডেশন</strong> একটি অলাভজনক সংস্থা যা{" "}
+                <time dateTime="2015">২০১৫ সাল</time> থেকে অসহায় মানুষদের পাশে
+                দাঁড়িয়ে আসছে। আমাদের লক্ষ্য হলো সমাজের পিছিয়ে পড়া মানুষদের
+                জীবনযাত্রার মান উন্নয়ন করা এবং তাদের স্বাবলম্বী করে তোলা।
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                আমরা শিক্ষা, স্বাস্থ্যসেবা, দক্ষতা উন্নয়ন এবং দুর্যোগ ত্রাণের
+                আমরা{" "}
+                <mark>
+                  শিক্ষা, স্বাস্থ্যসেবা, দক্ষতা উন্নয়ন এবং দুর্যোগ ত্রাণের
+                </mark>
                 মাধ্যমে সমাজের কল্যাণে কাজ করে যাচ্ছি।
               </p>
               <Link
                 href="/about"
                 className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-300"
+                aria-label="আহাম্মদ ফাউন্ডেশন সম্পর্কে বিস্তারিত জানুন"
               >
                 বিস্তারিত পড়ুন
               </Link>
-            </div>
-            <div className="relative">
+            </article>
+            <aside className="relative" aria-labelledby="stats-heading">
               <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-2xl p-8 text-white">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold">১০০০+</div>
+                <h3 id="stats-heading" className="sr-only">
+                  আমাদের অর্জনের পরিসংখ্যান
+                </h3>
+                <div className="grid grid-cols-2 gap-6" role="list">
+                  <div className="text-center" role="listitem">
+                    <div
+                      className="text-3xl font-bold"
+                      aria-label="এক হাজারের বেশি"
+                    >
+                      ১০০০+
+                    </div>
                     <div className="text-sm opacity-90">
                       সাহায্যপ্রাপ্ত পরিবার
                     </div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold">৫০+</div>
+                  <div className="text-center" role="listitem">
+                    <div
+                      className="text-3xl font-bold"
+                      aria-label="পঞ্চাশের বেশি"
+                    >
+                      ৫০+
+                    </div>
                     <div className="text-sm opacity-90">সফল প্রকল্প</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold">২০০+</div>
+                  <div className="text-center" role="listitem">
+                    <div
+                      className="text-3xl font-bold"
+                      aria-label="দুইশোর বেশি"
+                    >
+                      ২০০+
+                    </div>
                     <div className="text-sm opacity-90">স্বেচ্ছাসেবক</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold">৮+</div>
+                  <div className="text-center" role="listitem">
+                    <div className="text-3xl font-bold" aria-label="আটের বেশি">
+                      ৮+
+                    </div>
                     <div className="text-sm opacity-90">বছরের অভিজ্ঞতা</div>
                   </div>
                 </div>
               </div>
-            </div>
+            </aside>
           </div>
         </div>
       </section>
