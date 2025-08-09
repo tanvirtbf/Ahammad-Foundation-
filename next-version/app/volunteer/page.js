@@ -1,23 +1,23 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 export default function Volunteer() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    age: '',
-    gender: '',
-    address: '',
-    education: '',
-    profession: '',
-    experience: '',
+    name: "",
+    email: "",
+    phone: "",
+    age: "",
+    gender: "",
+    address: "",
+    education: "",
+    profession: "",
+    experience: "",
     interests: [],
-    availability: '',
-    motivation: '',
-    skills: '',
-    emergencyContact: '',
-    emergencyPhone: ''
+    availability: "",
+    motivation: "",
+    skills: "",
+    emergencyContact: "",
+    emergencyPhone: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -25,59 +25,66 @@ export default function Volunteer() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const interestOptions = [
-    { id: 'education', label: 'শিক্ষা সহায়তা', icon: '📚' },
-    { id: 'health', label: 'স্বাস্থ্য সেবা', icon: '🏥' },
-    { id: 'food', label: 'খাদ্য বিতরণ', icon: '🍽️' },
-    { id: 'disaster', label: 'দুর্যোগ ত্রাণ', icon: '🆘' },
-    { id: 'training', label: 'প্রশিক্ষণ', icon: '🛠️' },
-    { id: 'fundraising', label: 'তহবিল সংগ্রহ', icon: '💰' },
-    { id: 'admin', label: 'প্রশাসনিক কাজ', icon: '📋' },
-    { id: 'media', label: 'মিডিয়া ও প্রচার', icon: '📢' }
+    { id: "education", label: "শিক্ষা সহায়তা", icon: "📚" },
+    { id: "health", label: "স্বাস্থ্য সেবা", icon: "🏥" },
+    { id: "food", label: "খাদ্য বিতরণ", icon: "🍽️" },
+    { id: "disaster", label: "দুর্যোগ ত্রাণ", icon: "🆘" },
+    { id: "training", label: "প্রশিক্ষণ", icon: "🛠️" },
+    { id: "fundraising", label: "তহবিল সংগ্রহ", icon: "💰" },
+    { id: "admin", label: "প্রশাসনিক কাজ", icon: "📋" },
+    { id: "media", label: "মিডিয়া ও প্রচার", icon: "📢" },
   ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const handleInterestChange = (interestId) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       interests: prev.interests.includes(interestId)
-        ? prev.interests.filter(id => id !== interestId)
-        : [...prev.interests, interestId]
+        ? prev.interests.filter((id) => id !== interestId)
+        : [...prev.interests, interestId],
     }));
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = 'নাম আবশ্যক';
-    if (!formData.email.trim()) newErrors.email = 'ইমেইল আবশ্যক';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'সঠিক ইমেইল দিন';
-    if (!formData.phone.trim()) newErrors.phone = 'ফোন নম্বর আবশ্যক';
-    else if (!/^[0-9+\-\s()]+$/.test(formData.phone)) newErrors.phone = 'সঠিক ফোন নম্বর দিন';
-    if (!formData.age) newErrors.age = 'বয়স আবশ্যক';
-    else if (formData.age < 16 || formData.age > 80) newErrors.age = 'বয়স ১৬-৮০ এর মধ্যে হতে হবে';
-    if (!formData.gender) newErrors.gender = 'লিঙ্গ নির্বাচন করুন';
-    if (!formData.address.trim()) newErrors.address = 'ঠিকানা আবশ্যক';
-    if (!formData.education.trim()) newErrors.education = 'শিক্ষাগত যোগ্যতা আবশ্যক';
-    if (!formData.availability) newErrors.availability = 'সময় নির্বাচন করুন';
-    if (!formData.motivation.trim()) newErrors.motivation = 'অনুপ্রেরণা লিখুন';
-    if (formData.interests.length === 0) newErrors.interests = 'কমপক্ষে একটি আগ্রহের ক্ষেত্র নির্বাচন করুন';
-    if (!formData.emergencyContact.trim()) newErrors.emergencyContact = 'জরুরি যোগাযোগের নাম আবশ্যক';
-    if (!formData.emergencyPhone.trim()) newErrors.emergencyPhone = 'জরুরি যোগাযোগের ফোন আবশ্যক';
+    if (!formData.name.trim()) newErrors.name = "নাম আবশ্যক";
+    if (!formData.email.trim()) newErrors.email = "ইমেইল আবশ্যক";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "সঠিক ইমেইল দিন";
+    if (!formData.phone.trim()) newErrors.phone = "ফোন নম্বর আবশ্যক";
+    else if (!/^[0-9+\-\s()]+$/.test(formData.phone))
+      newErrors.phone = "সঠিক ফোন নম্বর দিন";
+    if (!formData.age) newErrors.age = "বয়স আবশ্যক";
+    else if (formData.age < 16 || formData.age > 80)
+      newErrors.age = "বয়স ১৬-৮০ এর মধ্যে হতে হবে";
+    if (!formData.gender) newErrors.gender = "লিঙ্গ নির্বাচন করুন";
+    if (!formData.address.trim()) newErrors.address = "ঠিকানা আবশ্যক";
+    if (!formData.education.trim())
+      newErrors.education = "শিক্ষাগত যোগ্যতা আবশ্যক";
+    if (!formData.availability) newErrors.availability = "সময় নির্বাচন করুন";
+    if (!formData.motivation.trim()) newErrors.motivation = "অনুপ্রেরণা লিখুন";
+    if (formData.interests.length === 0)
+      newErrors.interests = "কমপক্ষে একটি আগ্রহের ক্ষেত্র নির্বাচন করুন";
+    if (!formData.emergencyContact.trim())
+      newErrors.emergencyContact = "জরুরি যোগাযোগের নাম আবশ্যক";
+    if (!formData.emergencyPhone.trim())
+      newErrors.emergencyPhone = "জরুরি যোগাযোগের ফোন আবশ্যক";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -85,16 +92,56 @@ export default function Volunteer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append(
+        "access_key",
+        "a197f4ce-a494-4a0e-a5c9-0b1e1e6ec823"
+      );
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("age", formData.age);
+      formDataToSend.append("gender", formData.gender);
+      formDataToSend.append("address", formData.address);
+      formDataToSend.append("education", formData.education);
+      formDataToSend.append("profession", formData.profession);
+      formDataToSend.append("experience", formData.experience);
+      formDataToSend.append("interests", formData.interests.join(", "));
+      formDataToSend.append("availability", formData.availability);
+      formDataToSend.append("motivation", formData.motivation);
+      formDataToSend.append("skills", formData.skills);
+      formDataToSend.append("emergency_contact", formData.emergencyContact);
+      formDataToSend.append("emergency_phone", formData.emergencyPhone);
+      formDataToSend.append(
+        "form_type",
+        "Volunteer Registration - আহাম্মদ ফাউন্ডেশন"
+      );
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataToSend,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSubmitted(true);
+      } else {
+        console.log("Error", data);
+        alert("ফর্ম পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("ফর্ম পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 2000);
+    }
   };
 
   if (isSubmitted) {
@@ -102,8 +149,18 @@ export default function Volunteer() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-20">
         <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            <svg
+              className="w-8 h-8 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              ></path>
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -116,9 +173,21 @@ export default function Volunteer() {
             onClick={() => {
               setIsSubmitted(false);
               setFormData({
-                name: '', email: '', phone: '', age: '', gender: '', address: '',
-                education: '', profession: '', experience: '', interests: [],
-                availability: '', motivation: '', skills: '', emergencyContact: '', emergencyPhone: ''
+                name: "",
+                email: "",
+                phone: "",
+                age: "",
+                gender: "",
+                address: "",
+                education: "",
+                profession: "",
+                experience: "",
+                interests: [],
+                availability: "",
+                motivation: "",
+                skills: "",
+                emergencyContact: "",
+                emergencyPhone: "",
               });
             }}
             className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
@@ -139,8 +208,8 @@ export default function Volunteer() {
             স্বেচ্ছাসেবক নিবন্ধন
           </h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90">
-            আমাদের সাথে যুক্ত হয়ে সমাজের কল্যাণে অবদান রাখুন। 
-            আপনার সময় ও দক্ষতা দিয়ে অসহায় মানুষদের পাশে দাঁড়ান।
+            আমাদের সাথে যুক্ত হয়ে সমাজের কল্যাণে অবদান রাখুন। আপনার সময় ও
+            দক্ষতা দিয়ে অসহায় মানুষদের পাশে দাঁড়ান।
           </p>
         </div>
       </section>
@@ -153,33 +222,37 @@ export default function Volunteer() {
               কেন স্বেচ্ছাসেবক হবেন?
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 icon: "❤️",
                 title: "সমাজসেবা",
-                description: "অসহায় মানুষদের পাশে দাঁড়িয়ে সমাজে ইতিবাচক পরিবর্তন আনুন"
+                description:
+                  "অসহায় মানুষদের পাশে দাঁড়িয়ে সমাজে ইতিবাচক পরিবর্তন আনুন",
               },
               {
                 icon: "🤝",
                 title: "নেটওয়ার্কিং",
-                description: "সমমনা মানুষদের সাথে পরিচিত হন এবং নতুন বন্ধুত্ব গড়ুন"
+                description:
+                  "সমমনা মানুষদের সাথে পরিচিত হন এবং নতুন বন্ধুত্ব গড়ুন",
               },
               {
                 icon: "🎯",
                 title: "দক্ষতা বৃদ্ধি",
-                description: "নতুন দক্ষতা শিখুন এবং নেতৃত্বের গুণাবলী বিকশিত করুন"
-              }
+                description:
+                  "নতুন দক্ষতা শিখুন এবং নেতৃত্বের গুণাবলী বিকশিত করুন",
+              },
             ].map((benefit, index) => (
-              <div key={index} className="text-center p-6 bg-gray-50 rounded-xl">
+              <div
+                key={index}
+                className="text-center p-6 bg-gray-50 rounded-xl"
+              >
                 <div className="text-4xl mb-4">{benefit.icon}</div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-3">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600">
-                  {benefit.description}
-                </p>
+                <p className="text-gray-600">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -193,7 +266,7 @@ export default function Volunteer() {
             <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
               নিবন্ধন ফর্ম
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Personal Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -206,12 +279,14 @@ export default function Volunteer() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.name ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="আপনার পূর্ণ নাম লিখুন"
                   />
-                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                  {errors.name && (
+                    <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                  )}
                 </div>
 
                 <div>
@@ -223,12 +298,14 @@ export default function Volunteer() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.email ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="example@email.com"
                   />
-                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -240,12 +317,14 @@ export default function Volunteer() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.phone ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.phone ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="+৮৮০ ১৭xxxxxxxx"
                   />
-                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                  )}
                 </div>
 
                 <div>
@@ -259,12 +338,14 @@ export default function Volunteer() {
                     onChange={handleInputChange}
                     min="16"
                     max="80"
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.age ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.age ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="২৫"
                   />
-                  {errors.age && <p className="text-red-500 text-sm mt-1">{errors.age}</p>}
+                  {errors.age && (
+                    <p className="text-red-500 text-sm mt-1">{errors.age}</p>
+                  )}
                 </div>
               </div>
 
@@ -274,7 +355,7 @@ export default function Volunteer() {
                   লিঙ্গ *
                 </label>
                 <div className="flex space-x-4">
-                  {['পুরুষ', 'মহিলা', 'অন্যান্য'].map((gender) => (
+                  {["পুরুষ", "মহিলা", "অন্যান্য"].map((gender) => (
                     <label key={gender} className="flex items-center">
                       <input
                         type="radio"
@@ -288,7 +369,9 @@ export default function Volunteer() {
                     </label>
                   ))}
                 </div>
-                {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender}</p>}
+                {errors.gender && (
+                  <p className="text-red-500 text-sm mt-1">{errors.gender}</p>
+                )}
               </div>
 
               {/* Address */}
@@ -301,12 +384,14 @@ export default function Volunteer() {
                   value={formData.address}
                   onChange={handleInputChange}
                   rows="3"
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                    errors.address ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                    errors.address ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="আপনার সম্পূর্ণ ঠিকানা লিখুন"
                 />
-                {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+                {errors.address && (
+                  <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+                )}
               </div>
 
               {/* Education and Profession */}
@@ -320,12 +405,16 @@ export default function Volunteer() {
                     name="education"
                     value={formData.education}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.education ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.education ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="যেমন: স্নাতক, এইচএসসি ইত্যাদি"
                   />
-                  {errors.education && <p className="text-red-500 text-sm mt-1">{errors.education}</p>}
+                  {errors.education && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.education}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -337,7 +426,7 @@ export default function Volunteer() {
                     name="profession"
                     value={formData.profession}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600"
                     placeholder="আপনার বর্তমান পেশা"
                   />
                 </div>
@@ -354,8 +443,8 @@ export default function Volunteer() {
                       key={interest.id}
                       className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all ${
                         formData.interests.includes(interest.id)
-                          ? 'border-green-500 bg-green-50 text-green-700'
-                          : 'border-gray-300 hover:border-green-300'
+                          ? "border-green-500 bg-green-50 text-green-700"
+                          : "border-gray-300 hover:border-green-300"
                       }`}
                     >
                       <input
@@ -365,11 +454,17 @@ export default function Volunteer() {
                         className="sr-only"
                       />
                       <span className="text-xl mr-2">{interest.icon}</span>
-                      <span className="text-sm font-medium">{interest.label}</span>
+                      <span className="text-sm font-medium">
+                        {interest.label}
+                      </span>
                     </label>
                   ))}
                 </div>
-                {errors.interests && <p className="text-red-500 text-sm mt-1">{errors.interests}</p>}
+                {errors.interests && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.interests}
+                  </p>
+                )}
               </div>
 
               {/* Availability */}
@@ -381,8 +476,8 @@ export default function Volunteer() {
                   name="availability"
                   value={formData.availability}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                    errors.availability ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                    errors.availability ? "border-red-500" : "border-gray-300"
                   }`}
                 >
                   <option value="">নির্বাচন করুন</option>
@@ -391,7 +486,11 @@ export default function Volunteer() {
                   <option value="flexible">যেকোনো সময়</option>
                   <option value="evenings">সন্ধ্যার পর</option>
                 </select>
-                {errors.availability && <p className="text-red-500 text-sm mt-1">{errors.availability}</p>}
+                {errors.availability && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.availability}
+                  </p>
+                )}
               </div>
 
               {/* Skills and Experience */}
@@ -405,7 +504,7 @@ export default function Volunteer() {
                     value={formData.skills}
                     onChange={handleInputChange}
                     rows="3"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600"
                     placeholder="যেমন: কম্পিউটার, ভাষা, চিকিৎসা ইত্যাদি"
                   />
                 </div>
@@ -419,7 +518,7 @@ export default function Volunteer() {
                     value={formData.experience}
                     onChange={handleInputChange}
                     rows="3"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600"
                     placeholder="স্বেচ্ছাসেবী কাজের পূর্ব অভিজ্ঞতা থাকলে লিখুন"
                   />
                 </div>
@@ -436,12 +535,18 @@ export default function Volunteer() {
                     name="emergencyContact"
                     value={formData.emergencyContact}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.emergencyContact ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.emergencyContact
+                        ? "border-red-500"
+                        : "border-gray-300"
                     }`}
                     placeholder="জরুরি অবস্থায় যোগাযোগের নাম"
                   />
-                  {errors.emergencyContact && <p className="text-red-500 text-sm mt-1">{errors.emergencyContact}</p>}
+                  {errors.emergencyContact && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.emergencyContact}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -453,12 +558,18 @@ export default function Volunteer() {
                     name="emergencyPhone"
                     value={formData.emergencyPhone}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                      errors.emergencyPhone ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                      errors.emergencyPhone
+                        ? "border-red-500"
+                        : "border-gray-300"
                     }`}
                     placeholder="+৮৮০ ১৭xxxxxxxx"
                   />
-                  {errors.emergencyPhone && <p className="text-red-500 text-sm mt-1">{errors.emergencyPhone}</p>}
+                  {errors.emergencyPhone && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.emergencyPhone}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -472,12 +583,16 @@ export default function Volunteer() {
                   value={formData.motivation}
                   onChange={handleInputChange}
                   rows="4"
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                    errors.motivation ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-600 ${
+                    errors.motivation ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="কেন আপনি আমাদের সাথে স্বেচ্ছাসেবক হিসেবে কাজ করতে চান?"
                 />
-                {errors.motivation && <p className="text-red-500 text-sm mt-1">{errors.motivation}</p>}
+                {errors.motivation && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.motivation}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
@@ -487,20 +602,36 @@ export default function Volunteer() {
                   disabled={isSubmitting}
                   className={`px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 ${
                     isSubmitting
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-green-600 hover:bg-green-700 transform hover:scale-105'
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-600 hover:bg-green-700 transform hover:scale-105"
                   } text-white`}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       জমা দেওয়া হচ্ছে...
                     </span>
                   ) : (
-                    'নিবন্ধন সম্পন্ন করুন'
+                    "নিবন্ধন সম্পন্ন করুন"
                   )}
                 </button>
               </div>
